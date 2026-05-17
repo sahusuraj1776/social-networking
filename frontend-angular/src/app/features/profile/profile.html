@@ -1,0 +1,162 @@
+<app-main-layout>
+
+  <!-- ================= HEADER ================= -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="ml-4 text-2xl font-semibold">{{ user().name }}</h1>
+
+    @if (!isEditing()) {
+      <button
+        class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+        type="button"
+        (click)="handleEdit()"
+      >
+        Edit Profile
+      </button>
+    } @else {
+      <div class="flex gap-2">
+        <button
+          class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700"
+          type="button"
+          (click)="handleSave()"
+        >
+          Save
+        </button>
+
+        <button
+          class="bg-gray-400 text-white px-4 py-1 rounded hover:bg-gray-500"
+          type="button"
+          (click)="handleCancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- ================= PROFILE CARD ================= -->
+  <div class="border rounded shadow bg-white p-6 flex gap-6">
+
+    <!-- PROFILE PHOTO -->
+    <div class="w-40 h-40 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
+      @if (!isEditing()) {
+        @if (user().profileUrl) {
+          <img
+            [src]="user().profileUrl!"
+            [alt]="user().name"
+            class="w-full h-full object-cover"
+          />
+        } @else {
+          <fa-icon [icon]="faUser" class="text-gray-700 text-[70px]"></fa-icon>
+        }
+      } @else {
+        <label class="cursor-pointer block w-full h-full">
+          @if (editPhoto()) {
+            <img
+              [src]="editPhoto()!"
+              alt="Preview"
+              class="w-full h-full object-cover"
+            />
+          } @else {
+            <div class="flex items-center justify-center h-full">
+              <fa-icon [icon]="faUser" class="text-gray-700 text-[70px]"></fa-icon>
+            </div>
+          }
+          <input
+            type="file"
+            accept="image/*"
+            class="hidden"
+            (change)="handlePhotoUpload($event)"
+          />
+        </label>
+      }
+    </div>
+
+    <!-- PROFILE INFO -->
+    <div class="flex-1 text-sm space-y-2">
+      @if (!isEditing()) {
+        <p><strong>Name:</strong> {{ user().name }}</p>
+        <p><strong>Email:</strong> {{ user().email }}</p>
+        <p><strong>City:</strong> {{ user().city }}</p>
+        <p><strong>Gender:</strong> {{ user().gender }}</p>
+        <p><strong>Profession:</strong> {{ user().profession }}</p>
+      } @else {
+        <form [formGroup]="editForm" class="grid grid-cols-2 gap-4">
+          <input class="border p-2 rounded" formControlName="name" placeholder="Name" />
+          <input class="border p-2 rounded" formControlName="email" placeholder="Email" />
+          <input class="border p-2 rounded" formControlName="city" placeholder="City" />
+          <select class="border p-2 rounded" formControlName="gender">
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+          <input
+            class="border p-2 rounded col-span-2"
+            formControlName="profession"
+            placeholder="Profession"
+          />
+        </form>
+      }
+    </div>
+  </div>
+
+  <!-- ================= PROFILE WALL ================= -->
+  <div class="mt-10 border rounded shadow bg-white">
+
+    <div class="bg-sky-900 text-white px-4 py-2 font-semibold">
+      Profile Wall
+    </div>
+
+    <div class="p-4">
+      <textarea
+        class="w-full border rounded p-3 h-24"
+        placeholder="Write on the wall..."
+        [value]="wallText()"
+        (input)="onWallTextInput($event)"
+      ></textarea>
+
+      <!-- ✅ ATTACHMENT PREVIEWS (HOME‑LIKE) -->
+      @if (wallAttachments().length) {
+        <div class="flex gap-4 mt-3 flex-wrap">
+          @for (a of wallAttachments(); track $index) {
+            @if (a.type.startsWith('video')) {
+              <video
+                [src]="a.url"
+                controls
+                class="w-32 h-24 rounded object-cover"
+              ></video>
+            } @else {
+              <img
+                [src]="a.url"
+                alt="attachment"
+                class="w-24 h-24 rounded object-cover"
+              />
+            }
+          }
+        </div>
+      }
+
+      <div class="flex justify-between mt-4">
+        <button
+          class="bg-sky-900 text-white px-4 py-2 rounded"
+          type="button"
+          (click)="submitWallPost()"
+        >
+          Submit
+        </button>
+
+        <div class="flex gap-2 text-sm">
+          <label class="border px-3 py-1 rounded cursor-pointer">
+            🖼️ Image
+            <input type="file" accept="image/*" class="hidden" (change)="handleWallUpload($event)" />
+          </label>
+
+          <label class="border px-3 py-1 rounded cursor-pointer">
+            🎥 Video
+            <input type="file" accept="video/*" class="hidden" (change)="handleWallUpload($event)" />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</app-main-layout>

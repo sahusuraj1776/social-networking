@@ -1,0 +1,62 @@
+<div class="space-y-6">
+
+  <!-- ✅ My Friends -->
+  <div class="border border-gray-200 rounded shadow bg-white">
+    <div class="bg-sky-900 text-white px-4 py-2 font-semibold">
+      My Friends
+    </div>
+
+    <div class="grid grid-cols-3 gap-3 p-4 justify-items-center">
+      @for (i of friends; track i) {
+        <div
+          class="w-12 h-12 bg-gray-100 text-black flex items-center justify-center rounded"
+        >
+          <!-- Icon placeholder (React used FaUserAlt) -->
+          <fa-icon [size]="'2xl'" [icon]="faUser" class="text-black" [fixedWidth]="true"></fa-icon>
+        </div>
+      }
+    </div>
+
+    <button
+      class="w-full bg-sky-800 text-white py-2 hover:bg-sky-900 hover:cursor-pointer"
+      type="button"
+      routerLink="/members"
+    >
+      View All Friends
+    </button>
+  </div>
+
+  <!-- ✅ Latest Groups -->
+  <div class="border border-gray-200 rounded shadow bg-white">
+    <div class="bg-sky-900 text-white px-4 py-2 font-semibold">
+      Latest Groups
+    </div>
+
+    <div class="p-4 space-y-4">
+      @for (group of latestGroups; track group) {
+        <div class="flex gap-3 items-start hover:-translate-y-1 hover:cursor-pointer">
+          <div class="w-12 h-12 bg-gray-100 text-black flex items-center justify-center rounded">
+            <!-- Icon placeholder (React used HiUserGroup) -->
+            <fa-icon [size]="'2xl'" [icon]="faUsers" class="text-black" [fixedWidth]="true"></fa-icon>
+          </div>
+
+          <div>
+            <p class="text-sky-700">{{ groupTitle }}</p>
+            <p class="text-sm text-gray-800">
+              {{ groupDesc }}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <button
+      class="w-full bg-sky-800 text-white py-2 hover:bg-sky-900 hover:cursor-pointer"
+      type="button"
+      routerLink="/groups"
+    >
+      View All Groups
+    </button>
+  </div>
+
+</div>

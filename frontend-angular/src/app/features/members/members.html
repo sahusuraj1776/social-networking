@@ -1,0 +1,53 @@
+<app-main-layout>
+  <h1 class="sm:ml-4 text-2xl font-semibold mb-6">Members</h1>
+
+  <div class="space-y-6">
+    @for (member of members(); track member.id) {
+    <div class="flex items-center gap-6 border border-gray-200 rounded shadow bg-white p-4">
+      <!-- ✅ Avatar -->
+      <div class="w-20 h-20 bg-gray-100 text-black flex items-center justify-center rounded">
+        @if (member.profileUrl) {
+        <img [src]="'http://localhost:4000/media/'+member.profileUrl" [alt]="member.name"
+          class="w-full h-full rounded" />
+        } @else {
+        <fa-icon [icon]="faUser" class="text-black text-[40px]"></fa-icon>
+        }
+      </div>
+
+      <!-- ✅ Member Info -->
+      <div>
+        <p class="font-semibold">{{ member.name }}</p>
+
+        <div class="flex gap-3 mt-2">
+          @if (isFollower(member.id) && isFollowing(member.id)) {
+          <div class="bg-orange-300 text-white px-4 py-1 rounded flex items-center" >
+            Following
+          </div>
+          <button class="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 hover:cursor-pointer" [disabled]="isBusy(member.id)" (click)="unfollow(member.id)">
+            Unfollow
+          </button>
+          }
+          @else if (isFollower(member.id)) {
+          <button class="bg-yellow-600 text-white px-4 py-1 rounded hover:bg-yellow-700 hover:cursor-pointer" [disabled]="isBusy(member.id)" (click)="follow(member.id)">
+            Follow Back
+          </button>
+          }
+          @else if (isFollowing(member.id)) {
+          <button class="bg-amber-600 text-white px-4 py-1 rounded hover:bg-amber-700 hover:cursor-pointer" [disabled]="isBusy(member.id)" (click)="unfollow(member.id)">
+            Requested
+          </button>
+          }
+          @else {
+          <button class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 hover:cursor-pointer" [disabled]="isBusy(member.id)" (click)="follow(member.id)">
+            Add Friend
+          </button>
+          }
+
+          <button class="bg-gray-200 px-4 py-1 rounded">Send Message</button>
+          <button class="bg-blue-600 text-white px-4 py-1 rounded">View Profile</button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</app-main-layout>

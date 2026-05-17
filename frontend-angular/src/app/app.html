@@ -1,0 +1,16 @@
+<div class="min-h-screen flex flex-col bg-white">
+  <!-- ✅ Toast placeholder (we'll wire actual toast lib later) -->
+  <!-- <app-toast-container></app-toast-container> -->
+
+  @if (!hideNavbar()) {
+    <app-navbar />
+  }
+
+  <!-- ✅ EXPANDS to fill space -->
+  <main class="grow">
+    <router-outlet />
+  </main>
+
+  <!-- ✅ Footer ALWAYS at bottom -->
+  <app-footer />
+</div>
