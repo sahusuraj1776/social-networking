@@ -49,8 +49,12 @@ logs/
 dist/
 build/
 
-# Keep uploads directory structure but ignore actual upload files
-uploads/*
-!uploads/.gitkeep
-!uploads/post/.gitkeep
-!uploads/user/.gitkeep
+# Uploads directory - ignore all uploads but keep directory structure
+backend/uploads/*
+!backend/uploads/.gitkeep
+!backend/uploads/post/
+!backend/uploads/user/
+backend/uploads/post/*
+!backend/uploads/post/.gitkeep
+backend/uploads/user/*
+!backend/uploads/user/.gitkeep
